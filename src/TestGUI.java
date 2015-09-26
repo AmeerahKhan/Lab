@@ -49,13 +49,20 @@ public class TestGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +85,10 @@ public class TestGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Enter URL ");
 
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,39 +103,39 @@ public class TestGUI extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3))
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(73, 73, 73))
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(77, 77, 77)
-                                    .addComponent(jLabel2))))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel2))))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jTextField1, jTextField2, jTextField3});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jTextField1, jTextField3});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -132,62 +143,73 @@ public class TestGUI extends javax.swing.JFrame {
 
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        command = jTextField1.getText();
-        String url = jTextField3.getText();
+StringBuffer result=new StringBuffer();
+Socket socket =null;
         try {
             System.out.println("Before socket connection");
-            Socket socket = new Socket(url, 9002);
+            String url = jTextField3.getText();
+             socket = new Socket(url, 9002);
+            command = jTextField1.getText();
             System.out.println("After socket connection");
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            InputStream input1=socket.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println("After Buffered readers");
-            //  ByteArrayOutputStream byteOutput=new ByteArrayOutputStream();   
-
-            // ObjectOutputStream objectStream=new ObjectOutputStream(byteOutput);
-            //objectStream.writeObject(command);
-            //   ObjectOutputStream objectStream=new ObjectOutputStream(socket.getOutputStream());
-            //ObjectInputStream inputObjectStream=new ObjectInputStream(socket.getInputStream());
             System.out.println("After getting streams");
-
             if (socket != null) {
                 try {
-                    int x = Integer.parseInt(command);
+                    int intergerInput = Integer.parseInt(command);  
                     flag = 1;
                 } catch (Exception e) {
                     flag = 0;
                 }
                 if (flag == 0) {
-                    String[] cmd = {"/bin/sh", "-c", command};
+                    
+                    String cmd=command;
 
-                    System.out.println("the value of command in GUI class is " + Arrays.toString(cmd));
-                    try {
+                        System.out.println(cmd);
 
-                        //objectStream.writeObject(cmd);
-                        String commd = Arrays.toString(cmd);
-                        System.out.println(commd);
-
-                        out.write(commd);
-                        input = in.readLine();
-//                 output=inputObjectStream.readUTF();
-
-                        // output = ex.executeCommand(cmd);//new Thread(ex).start();
-                        System.out.println("the value of output is " + input);
-                    } catch (IOException ex1) {
-                        Logger.getLogger(TestGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                        out.write(cmd+'\n');
+                       
+                        out.flush();         
+                       System.out.println("I am in finally");
+                       
                     }
-
-                    jTextField2.setText(input.toString());
-
+                
+                if(flag==1){
+                    out.write(command+'\n');
+                out.flush();
+                
                 }
-            }
+                
+                     while(true)
+                        {
+                       input = in.readLine();
+                      { result.append(input);
+                      System.out.println("the resturned value is"+result);
+                      jTextArea2.setText(result.toString());
+                        break;//
+                    
+                        
+                      }   
+                      
+                        }}
+                
 
-        }//try end of the first one
-        catch (IOException ex) {
-            Logger.getLogger(TestGUI.class.getName()).log(Level.SEVERE, null, ex);
+                
+                
+            
+
+              
+        }catch(Exception e){
+        
         }
-
+        finally{
+    try {
+        socket.close();
+    } catch (IOException ex) {
+       // Logger.getLogger(TestGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -242,8 +264,11 @@ public class TestGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
