@@ -25,43 +25,8 @@ import java.util.Scanner;
  * @author ameerah
  */
 public class ServerMain {
-    private static int BUFSIZE =1024;
 
-    private StringBuffer result;
-    ServerSocket serverSocket;
-    String serverText;
-    StringBuffer output = new StringBuffer();
-    private Object serversocket;
-
-    public String executeCommand(String cmd)
-            throws IOException, InterruptedException /*{ class Threadclass implements Runnable{
-       
-     private String[] cmd ={};
-    
-     Threadclass(String[] command)
-     {System.out.println("The value in thread class is in the server");
-     this.cmd=command;
-     }*/ {
-        try {
-
-            Process p = Runtime.getRuntime().exec(cmd);
-            p.waitFor();
-            BufferedReader reader
-                    = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            System.out.println("Inside the execute method");
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return output.toString();
-
-    }
+  
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -69,52 +34,24 @@ public class ServerMain {
         try {
 
             ServerSocket serverSocket = new ServerSocket(9002);
+             InetAddress addr = InetAddress.getLocalHost();
+             String hostname = addr.getHostName();
+             
             System.out.println("server has been started in the server");
             System.out.println("Server is waiting connection at" + InetAddress.getLocalHost().getCanonicalHostName() + "port" + serverSocket.getLocalPort());
-            
-            while(true){
-            Socket socket = serverSocket.accept();
-            
-                  System.out.println("Client Connection Accepted");
-            handleClient(socket);
-            
-            }
-            //ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
-            //ObjectOutputStream objectServeroutput = new ObjectOutputStream(socket.getOutputStream());
-            }
-           // objectServeroutput.writeBytes(result);
+System.out.println("The hostname is "+hostname);
+            while (true) {
+                Socket socket = serverSocket.accept();
 
-//objectInput.close();
-//objectServeroutput.close();
-         catch (Exception e) {
+                System.out.println("Client Connection Accepted");
+                
+                //pass on handling on this client to a thread
+                (new ClientHandler(socket)).start();
+
+            }
+        } catch (Exception e) {
             System.err.println("Server already in use");
             System.exit(-1);
         }
-
     }
-    static void handleClient(Socket socket)throws Exception{
-    
-    BufferedReader myInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    PrintWriter outWriter = new PrintWriter(socket.getOutputStream());
-     System.out.println("before accepting the command in server");
-            String inputLine=null;
-            ServerMain objectMain = new ServerMain();
-            byte[] buff = new byte[BUFSIZE];
-		int bytesread = 0;
-            //    InputStream in=socket.getInputStream();
-              //  OutputStream out=socket.getOutputStream();
-		
-            while ((inputLine=myInput.readLine())!=null)
-                //String command = myInput.readLine();
-            {
-                System.out.println(inputLine);
-
-            }
-                String result = objectMain.executeCommand(inputLine);
-                System.out.println(result);
-                outWriter.write(result);
-
-           
-    }
-
 }
